@@ -200,6 +200,7 @@ Telegraf currently has support for collecting metrics from:
 * httpjson (generic JSON-emitting http service plugin)
 * jolokia (remote JMX with JSON over HTTP)
 * leofs
+* libvirt
 * lustre2
 * mailchimp
 * memcached

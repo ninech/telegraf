@@ -18,6 +18,9 @@ type OpenTSDB struct {
 	Host string
 	Port int
 
+	Username string
+	Password string
+
 	HttpBatchSize int
 
 	Debug bool
@@ -32,13 +35,17 @@ var sampleConfig = `
 
   ## DNS name of the OpenTSDB server
   ## Using "opentsdb.example.com" or "tcp://opentsdb.example.com" will use the
-  ## telnet API. "http://opentsdb.example.com" will use the Http API.
+  ## telnet API. "http://opentsdb.example.com" will use the HTTP API.
   host = "opentsdb.example.com"
 
   ## Port of the OpenTSDB server
   port = 4242
 
-  ## Number of data points to send to OpenTSDB in Http requests.
+  ## HTTP auth: optional Username / Passwords
+  # username = "telegraf"
+  # password = "metricsmetricsmetricsmetrics
+
+  ## Number of data points to send to OpenTSDB in HTTP requests.
   ## Not used with telnet API.
   httpBatchSize = 50
 
@@ -100,6 +107,8 @@ func (o *OpenTSDB) WriteHttp(metrics []telegraf.Metric, u *url.URL) error {
 	http := openTSDBHttp{
 		Host:      u.Host,
 		Port:      o.Port,
+		Username:  o.Username,
+		Password:  o.Password,
 		BatchSize: o.HttpBatchSize,
 		Debug:     o.Debug,
 	}

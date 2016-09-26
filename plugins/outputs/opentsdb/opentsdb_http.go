@@ -23,6 +23,8 @@ type HttpMetric struct {
 type openTSDBHttp struct {
 	Host      string
 	Port      int
+	Username  string
+	Password  string
 	BatchSize int
 	Debug     bool
 
@@ -133,6 +135,10 @@ func (o *openTSDBHttp) flush() error {
 	}
 	req.Header.Set("Content-Type", "applicaton/json")
 	req.Header.Set("Content-Encoding", "gzip")
+
+	if o.Username != "" {
+		req.SetBasicAuth(o.Username, o.Password)
+	}
 
 	if o.Debug {
 		dump, err := httputil.DumpRequestOut(req, false)
